@@ -1,10 +1,11 @@
 
 ## Make EC2 Machine
 
-- sudo apt-get update
-- sudo apt-get install docker.io
-- sudo systemctl status docker
-
+```bash
+sudo apt-get update
+sudo apt-get install docker.io
+sudo systemctl status docker
+```
 
 
 
