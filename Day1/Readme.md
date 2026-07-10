@@ -8,7 +8,7 @@
 
 
 
-docker ps
+./docker ps
 whoami
 sudo usermod -aG docker $USER
 newgrp docker
