@@ -10,7 +10,7 @@ sudo systemctl status docker
 
 ## check running container
 ```bash
-docker ps
+Docker ps
 ```
 ## check username
 ```bash
@@ -23,16 +23,16 @@ newgrp docker
 ```
 
 
-## Login Docker hub for image pull and push 
+### Login Docker hub for image pull and push 
 
 ## Generate Personal access Token
 ```bash
-docker login -u amitsaini4210
+Docker login -u amitsaini4210
 password: ***********
 ```
 ```bash
-mkdir projects
-cd projects
+mkdir Projects
+cd Projects
 git clone https://github.com/amitsaini4210/simple-java-docker.git
 ```
 
@@ -56,15 +56,15 @@ CMD ["java", "Main"]
 
 ## Build image using Dockerfile
 ```bash
-docker build -t java-app .
+Docker build -t java-app .
 ```
 ## show all images
 ```bash
-docker images
+Docker images
 ```
 ## Run your application
 ```bash
-docker run java-app
+Docker run java-app
 ```
 
 
