@@ -68,7 +68,8 @@ Docker images
 Docker run java-app
 ```
 
-<img width="567" height="38" alt="1" src="https://github.com/user-attachments/assets/29555bf0-502d-4979-8575-2508739db71d" />
+<img width="589" height="35" alt="3" src="https://github.com/user-attachments/assets/c9404a85-894c-4e7c-9b22-c6ed288ee68e" />
+
 
 
 
