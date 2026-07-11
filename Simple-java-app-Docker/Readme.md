@@ -21,6 +21,7 @@ whoami
 sudo usermod -aG docker $USER
 newgrp docker
 ```
+<img width="567" height="38" alt="1" src="https://github.com/user-attachments/assets/809142fe-f009-456e-b779-728dcd0b9c89" />
 
 
 ### Login Docker hub for image pull and push 
@@ -67,6 +68,7 @@ Docker images
 Docker run java-app
 ```
 
+<img width="567" height="38" alt="1" src="https://github.com/user-attachments/assets/29555bf0-502d-4979-8575-2508739db71d" />
 
 
 
