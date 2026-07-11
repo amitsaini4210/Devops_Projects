@@ -21,7 +21,7 @@ Before you begin, make sure you have the following installed:
 2. Navigate to the project directory:
 
    ```bash
-   cd your-repo-name
+   cd two-tier-flask-app
    ```
 
 3. Create a `.env` file in the project directory to store your MySQL environment variables:
