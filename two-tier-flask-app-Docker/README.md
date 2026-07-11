@@ -83,6 +83,11 @@ docker-compose down
 docker build -t flaskapp .
 ```
 
+- Now, make sure that you have created a Volume using following command
+```bash
+docker volume create mysql-data
+```
+
 - Now, make sure that you have created a network using following command
 ```bash
 docker network create twotier
@@ -99,7 +104,7 @@ docker run -d \
     -e MYSQL_DATABASE=mydb \
     -e MYSQL_ROOT_PASSWORD=admin \
     -p 3306:3306 \
-    mysql:5.7
+    mysql:latest
 
 ```
 ii) Backend container
