@@ -1,0 +1,64 @@
+pipeline {
+    agent any;
+    
+    stages{
+        stage("pull code"){
+            steps{
+                git url: "https://github.com/amitsaini4210/two-tier-flask-app.git" , branch: "main"
+            }
+        }
+        stage("build"){
+            steps{
+                sh "docker build -t two-tier-flask-app ."
+            }
+            
+        }
+      stage ("Trivy file scan"){
+            steps{
+                sh "trivy fs . "
+            }
+        }
+        stage ("test"){
+            steps{
+                echo "Developer / Tester tests likh ke dega..."
+            }
+        }
+        stage ("Push to dockerHub"){
+            steps{
+                withCredentials([usernamePassword(
+                    credentialsId: "dockerHubCreds",
+                    passwordVariable: "dockerHubPass",
+                    usernameVariable: "dockerHubUser")]){
+                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                     sh "docker image tag two-tier-flask-app ${env.dockerHubUser}/two-tier-flask-app"
+                     sh "docker push ${env.dockerHubUser}/two-tier-flask-app:latest"
+                }
+            }
+        }
+        stage ("Deploy"){
+            steps{
+                sh "docker compose up -d --build flask-app "
+            }
+        
+        }
+    }
+    post{
+        success{
+            script{
+                emailext from: 'amitchauhan4210@gmail.com',
+                to: 'amitchauhan4210@gmail.com',
+                body: 'Build success for Demo CICD App',
+                subject: 'Build success for Demo CICD App'
+            }
+        }
+        failure{
+            script{
+                emailext from: 'amitchauhan4210@gmail.com',
+                to: 'amitchauhan4210@gmail.com',
+                body: 'Build Failed for Demo CICD App',
+                subject: 'Build Failed for Demo CICD App'
+            }
+        }
+    }
+    
+}
