@@ -11,7 +11,7 @@ sudo apt-get update
 sudo apt-get install docker.io
 ```
 
-### Install Jenkins
+### Install Java
 Jenkins requires Java to run first install java
 
 ```bash
