@@ -1,130 +1,147 @@
- 
-# Flask App with MySQL Docker Setup
+# Deploy two tier flask app using Jenkins with sending email 
 
-This is a simple Flask app that interacts with a MySQL database. The app allows users to submit messages, which are then stored in the database and displayed on the frontend.
+<img width="2040" height="512" alt="project_flow" src="https://github.com/user-attachments/assets/7aacc7bc-da1b-4cfa-aaa7-5f092adb6493" />
 
-## Prerequisites
 
-Before you begin, make sure you have the following installed:
+# Make a ubuntu machine
 
-- Docker
-- Git (optional, for cloning the repository)
+### Install Docker
+```bash
+sudo apt-get update
+sudo apt-get install docker.io
+```
 
-## Setup
-
-1. Clone this repository (if you haven't already):
-
-   ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
-   cd your-repo-name
-   ```
-
-3. Create a `.env` file in the project directory to store your MySQL environment variables:
-
-   ```bash
-   touch .env
-   ```
-
-4. Open the `.env` file and add your MySQL configuration:
-
-   ```
-   MYSQL_HOST=mysql
-   MYSQL_USER=your_username
-   MYSQL_PASSWORD=your_password
-   MYSQL_DB=your_database
-   ```
-
-## Usage
-
-1. Start the containers using Docker Compose:
-
-   ```bash
-   docker-compose up --build
-   ```
-
-2. Access the Flask app in your web browser:
-
-   - Frontend: http://localhost
-   - Backend: http://localhost:5000
-
-3. Create the `messages` table in your MySQL database:
-
-   - Use a MySQL client or tool (e.g., phpMyAdmin) to execute the following SQL commands:
-   
-     ```sql
-     CREATE TABLE messages (
-         id INT AUTO_INCREMENT PRIMARY KEY,
-         message TEXT
-     );
-     ```
-
-4. Interact with the app:
-
-   - Visit http://localhost to see the frontend. You can submit new messages using the form.
-   - Visit http://localhost:5000/insert_sql to insert a message directly into the `messages` table via an SQL query.
-
-## Cleaning Up
-
-To stop and remove the Docker containers, press `Ctrl+C` in the terminal where the containers are running, or use the following command:
+### Install Jenkins
+Jenkins requires Java to run first install java
 
 ```bash
-docker-compose down
+sudo apt update
+sudo apt install fontconfig openjdk-21-jre
+java -version 
 ```
 
-## To run this two-tier application using  without docker-compose
 
-- First create a docker image from Dockerfile
+## installing jenkins
+
 ```bash
-docker build -t flaskapp .
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update
+sudo apt install jenkins 
 ```
 
-- Now, make sure that you have created a network using following command
+
+### Add 8080 port in AWS give right to itself IP
+
+### get Login password of Jenkins
 ```bash
-docker network create twotier
+  /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
-- Attach both the containers in the same network, so that they can communicate with each other
 
-i) MySQL container 
+
+### Add Current logged in user and Jenkins  in Docker group 
 ```bash
-docker run -d \
-    --name mysql \
-    -v mysql-data:/var/lib/mysql \
-    --network=twotier \
-    -e MYSQL_DATABASE=mydb \
-    -e MYSQL_ROOT_PASSWORD=admin \
-    -p 3306:3306 \
-    mysql:5.7
-
+Sudo usermod -aG docker $USER
+Newgrp docker 
+Sudo usermod -aG docker jenkins 
+sudo apt install docker-compose-v2
 ```
-ii) Backend container
+
+### Save DockerHub Login Credential in Jenkins
+<img width="801" height="201" alt="jenkins" src="https://github.com/user-attachments/assets/ec850bbf-401d-4bc4-9fa1-b1cb36b586c4" />
+<img width="802" height="180" alt="dockerhub" src="https://github.com/user-attachments/assets/5428a4e8-2c52-48c2-99ff-704f3c2edd31" />
+
+
+
+### install Trivy for file scanning
+
 ```bash
-docker run -d \
-    --name flaskapp \
-    --network=twotier \
-    -e MYSQL_HOST=mysql \
-    -e MYSQL_USER=root \
-    -e MYSQL_PASSWORD=admin \
-    -e MYSQL_DB=mydb \
-    -p 5000:5000 \
-    flaskapp:latest
-
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt-get update
+sudo apt-get install -y trivy
 ```
 
-## Notes
+## making a Pipeline for
+```bash
+@Library("Shared") _
+pipeline{
+    
+    agent { label "dev"};
+    
+    stages{
+        stage("Code Clone"){
+            steps{
+               script{
+                   clone("https://github.com/LondheShubham153/two-tier-flask-app.git", "master")
+               }
+            }
+        }
+        stage("Trivy File System Scan"){
+            steps{
+                script{
+                    trivy_fs()
+                }
+            }
+        }
+        stage("Build"){
+            steps{
+                sh "docker build -t two-tier-flask-app ."
+            }
+            
+        }
+        stage("Test"){
+            steps{
+                echo "Developer / Tester tests likh ke dega..."
+            }
+            
+        }
+        stage("Push to Docker Hub"){
+            steps{
+                script{
+                    docker_push("dockerHubCreds","two-tier-flask-app")
+                }  
+            }
+        }
+        stage("Deploy"){
+            steps{
+                sh "docker compose up -d --build flask-app"
+            }
+        }
+    }
 
-- Make sure to replace placeholders (e.g., `your_username`, `your_password`, `your_database`) with your actual MySQL configuration.
-
-- This is a basic setup for demonstration purposes. In a production environment, you should follow best practices for security and performance.
-
-- Be cautious when executing SQL queries directly. Validate and sanitize user inputs to prevent vulnerabilities like SQL injection.
-
-- If you encounter issues, check Docker logs and error messages for troubleshooting.
-
+post{
+        success{
+            script{
+                emailext from: 'amitsaini4210@gmail.com',
+                to: 'amitsaini4210@gmail.com',
+                body: 'Build success for Demo CICD App',
+                subject: 'Build success for Demo CICD App'
+            }
+        }
+        failure{
+            script{
+                emailext from: 'amitsaini4210@gmail.com',
+                to: 'amitsaini4210@gmail.com',
+                body: 'Build Failed for Demo CICD App',
+                subject: 'Build Failed for Demo CICD App'
+            }
+        }
+    }
+}
 ```
+
+
+<img width="801" height="201" alt="jenkins" src="https://github.com/user-attachments/assets/6f84c390-3fa6-4297-9761-942956527dbd" />
+<img width="793" height="483" alt="app" src="https://github.com/user-attachments/assets/59e65b2b-b73d-4c50-84f7-63f79bab36f0" />
+
+
+
+
+
+
 
