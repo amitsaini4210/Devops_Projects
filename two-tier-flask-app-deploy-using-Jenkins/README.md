@@ -52,7 +52,6 @@ sudo apt install docker-compose-v2
 ```
 
 ### Save DockerHub Login Credential in Jenkins
-<img width="801" height="201" alt="jenkins" src="https://github.com/user-attachments/assets/ec850bbf-401d-4bc4-9fa1-b1cb36b586c4" />
 <img width="802" height="180" alt="dockerhub" src="https://github.com/user-attachments/assets/5428a4e8-2c52-48c2-99ff-704f3c2edd31" />
 
 
