@@ -1,0 +1,12 @@
+{
+    "name": "gitlab-node-app",
+    "version": "1.0.0",
+    "description": "Node.js application deployed using GitLab CI/CD",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "dependencies": {
+      "express": "^4.21.2"
+    }
+}

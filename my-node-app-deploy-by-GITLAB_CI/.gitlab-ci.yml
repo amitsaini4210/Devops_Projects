@@ -1,0 +1,77 @@
+stages:
+  - build
+  - installation
+  - test
+  - push_to_dockerHub
+  - deploy
+
+
+# -------------------------
+# Build STAGE
+# -------------------------
+
+Build_job:
+ stage: build
+ script:
+   - docker build -t node-app:latest .
+ tags:
+   - dev
+
+  
+
+installation_job:
+  stage: installation
+  image: node:20-alpine
+
+  script:
+    - npm install
+    - node --check app.js
+  
+  tags:
+   - dev
+  
+  
+
+ # -------------------------
+# BUILD STAGE
+# -------------------------
+
+
+
+test_job:
+  stage: test
+  script:
+    - echo "teste by Q.C"
+
+  tags:
+   - dev
+    
+
+
+push_job:
+  stage: push_to_dockerHub
+  script:
+  
+    - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS 
+    - docker image tag node-app:latest $DOCKERHUB_USER/node-app:latest 
+    - docker push $DOCKERHUB_USER/node-app:latest 
+
+  tags:
+   - dev
+
+     
+
+
+# -------------------------
+# DEPLOY STAGE
+# -------------------------
+
+deploy_job:
+  stage: deploy
+  script:
+    - docker run -d --name my-node-app --restart unless-stopped -p 3000:3000 $DOCKERHUB_USER/node-app:latest 
+
+  tags:
+   - dev  
+
+   
