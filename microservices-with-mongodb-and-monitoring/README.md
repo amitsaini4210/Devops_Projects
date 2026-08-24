@@ -33,25 +33,6 @@ This project aims to provide a real-time chat experience that's both scalable an
 * **Online Status**: View real-time online/offline status of users 
 
 
-## 🛠️ Tech Stack:
-
-
-* **Backend:** Node.js, Express, MongoDB, Socket.io
-* **Frontend:** React, TailwindCSS
-* **Containerization:** Docker
-* **Orchestration:** Kubernetes (planned)
-* **Web Server:** Nginx
-* **State Management:** Zustand
-* **Authentication:** JWT
-* **Styling Components:** DaisyUI
-
-
-## 🔧 Prerequisites:
-
-
-* **[Node.js](https://nodejs.org/)** (v14 or higher)
-* **[Docker](https://www.docker.com/get-started)** (for containerizing the app)
-* **[Git](https://git-scm.com/downloads)** (to clone the repository)
 
 # Make a ubuntu machine
 ### Install Docker
@@ -96,7 +77,8 @@ docker --version
 kind --version
 ```
 
-images 1 ==>
+<img width="727" height="205" alt="1" src="https://github.com/user-attachments/assets/872d5d80-39d9-46a5-9d89-595b23c01dc2" />
+
 
 ### write config file for making cluster with the name ⇒   config.yml
 
@@ -161,7 +143,8 @@ Restart the deployment
 kubectl -n kube-system rollout restart deployment metrics-server
 kubectl top node
 ```
-images top nodes ==>
+<img width="946" height="95" alt="top nodes" src="https://github.com/user-attachments/assets/34dbe3ee-60c9-405f-bbfa-608a1f01c9ae" />
+
 
 
 
@@ -179,6 +162,9 @@ kubectl get svc -n chat-app
 kubectl port-forward service/backend -n chat-app 5001:5001 &
 kubectl port-forward service/frontend-n chat-app 8080:80 
 ```
+### Check Running App on Local host
+<img width="1049" height="508" alt="chat-app" src="https://github.com/user-attachments/assets/8ff04540-6127-4849-b788-02b98ef9b5b3" />
+
 
 ### Mkdir  monitoring
 Install helm then ⇒
@@ -221,6 +207,7 @@ kubectl port-forward svc/prometheus-stack-grafana 3000:80 -n monitoring --addres
 
 # Acess Prometheus
 ### http://localhost:9090/metrics  ⇒ Application jo data prometheus ko bhejta hai show karta hai
+<img width="1219" height="651" alt="prom" src="https://github.com/user-attachments/assets/d4300141-49e4-4a99-be00-640553f6ea05" />
 
 
 # Access Grafana
@@ -230,6 +217,7 @@ kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.ad
 ```
 ### http://localhost:3000  ⇒ Grafana Running
 
+<img width="1188" height="715" alt="grafana" src="https://github.com/user-attachments/assets/d634bc24-837b-4ba9-8c3f-90ad87e3be95" />
 
 
 
