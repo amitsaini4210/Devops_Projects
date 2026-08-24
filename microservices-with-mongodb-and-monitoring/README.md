@@ -53,6 +53,58 @@ This project aims to provide a real-time chat experience that's both scalable an
 * **[Docker](https://www.docker.com/get-started)** (for containerizing the app)
 * **[Git](https://git-scm.com/downloads)** (to clone the repository)
 
+# Make a ubuntu machine
+### Install Docker
+```bash
+sudo apt-get update
+sudo apt-get install docker.io
+
+```
+### Add user in Docker Group
+
+```bash
+Sudo usermod -aG docker $USER
+Newgrp docker 
+```
+
+
+## install kind clusters
+```bash
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.32.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+```
+
+
+## install kubectl
+```bash
+curl -LO 
+"https://dl.k8s.io/release/
+$(
+curl -L -s https://dl.k8s.io/release/stable.txt
+)
+/bin/linux/amd64/kubectl"
+
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin
+```
+
+## check install Docker, Kubectl, kind-cluster
+```bash
+kubectl version
+docker --version
+kind --version
+```
+
+images 1 ==>
+
+### write config file for making cluster with the name ⇒   config.yml
+
+### create cluster
+```bash
+kind create cluster   -- name=my-cluster - - config=config.yml
+Kubectl get nodes
+```
 
 ## 📝 Setup .env File:
 
@@ -75,101 +127,114 @@ PORT=5001
 git clone https://github.com/iemafzalhassan/full-stack_chatApp.git
 ```
 
-## 🏗️ Build and Run the Application"
 
-Follow these steps to build and run the application:
-
-1. Build & Run the Containers:
-
+### Login Docker Hub
 ```bash
-cd full-stack_chatApp
-```
-```bash
-docker-compose up -d --build
-```
-
-2. Access the application in your browser:
-
-```
-http://localhost
-```
----
-
-## 🛠️ Getting Started
-
-Follow these simple steps to get the project up and running on your local Host using docker.
-
-```bash
-git clone https://github.com/iemafzalhassan/full-stack_chatApp.git
+docker login
 ```
 
 ```bash
-cd full-stack_chatApp
+Docker build -t amitsaini4210/chatapp-backend:latest .
+Docker push amitsaini4210/chatapp-backend:latest
+
+
+Docker build -t amitsaini4210/chatapp-frontend:latest .
+Docker push amitsaini4210/chatapp-frontend:latest
 ```
-## Create a Docker network:
+
+# Install Metric-Server
+if you are using a kind cluster install metrics server
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
+Edit the metrics server deployment
+```bash
+kubectl -n kube-system edit deployment metrics-server
+```
+Add the security bypass to deployment under 'container.args' for testing only
+```bash
+- --kubelet-insecure-tls
+- --kubelet-preferred-address-types=InternalIP,Hostname,ExternalIP
+```
+Restart the deployment
+```bash
+kubectl -n kube-system rollout restart deployment metrics-server
+kubectl top node
+```
+images top nodes ==>
+
+
+
+# Apply K8S .yml file 
+```bash
+kubectl apply -f namespace.yml	
+kubectl apply -f mongodb.pv.yml	
+kubectl apply -f mongodb.pvc.yml	
+kubectl apply -f .
+```
+
+# Get Service and Port-forward on Port 
+```bash
+kubectl get svc -n chat-app
+kubectl port-forward service/backend -n chat-app 5001:5001 &
+kubectl port-forward service/frontend-n chat-app 8080:80 
+```
+
+### Mkdir  monitoring
+Install helm then ⇒
+```bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+### Create namespace for monitoring 
+```bash
+kubectl create namespace monitoring
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+helm repo list
+
+helm repo update
+```
+```bash
+helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring --set prometheus.service.nodePort=30000 --set grafana.service.nodePort=31000 --set grafana.service.type=NodePort --set prometheus.service.type=NodePort
+
+```
+```bash
+kubectl get pods -n monitoring 
+kubectl get svc -n monitoring 
+
+kubectl port-forward svc/prometheus-stack-kube-prom-prometheus 9090:9090 -n monitoring --address=0.0.0.0
+```
+
+### Go aws active port 9090 and then   ip:9090
+### Grafana forward port⇒
 
 ```bash
-docker network create full-stack
+kubectl port-forward svc/prometheus-stack-grafana 3000:80 -n monitoring --address=0.0.0.0 &
 ```
 
-## 🛠️ Building the Frontend
 
+### Helm auto connect prometheus and grafana 
+
+# Acess Prometheus
+### http://localhost:9090/metrics  ⇒ Application jo data prometheus ko bhejta hai show karta hai
+
+
+# Access Grafana
+### Get Grafana Password
 ```bash
-cd frontend
+kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode 
 ```
-
-```bash
-docker build -t full-stack_frontend .
-```
-
-### Run the Frontend container:
-
-```bash
-docker run -d --network=full-stack  -p 5173:5173 --name frontend full-stack_frontend:latest
-```
-#### The frontend will now be accessible on port 5173.
+### http://localhost:3000  ⇒ Grafana Running
 
 
-### Run the MongoDB Container:
-
-```bash
-docker run -d -p 27017:27017 --name mongo mongo:latest
-```
----
-
-## 🛠️ Building the Backend
-
-```bash
-cd backend
-```
-
-### Build the Backend image:
-
-```bash
-docker build -t full-stack_backend .
-```
-
-### Run the Backend container:
-
-```bash
-docker run -d --network=full-stack --add-host=host.docker.internal:host-gateway -p 5001:5001 --env-file .env full-stack_backend
-
-```
-#### This will build and run the backend container, exposing the backendAPI on port 5001.
-
-`Backend API: http://localhost:5001`
-
-### To Verify the conncetion between backend and databse:
-```bash
-docker-compose logs -f
-```
-
-### Once the backend and frontend containers are running, you can access the application in your browser:
-
-`Frontend: http://localhost`
 
 
-You can now interact with the real-time chat app and start messaging!
+
+
 
 ---
 
