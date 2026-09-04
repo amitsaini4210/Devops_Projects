@@ -29,7 +29,8 @@
       - AMI: **Ubuntu**
       - Instance Type: **t2.micro**
       - Key Pair: **WAF-serverKey (.pem or .ppk)**
-<img width="1185" height="174" alt="TG" src="https://github.com/user-attachments/assets/2ad3f10f-6419-4fe7-bc8c-e058293db65d" />
+<img width="1667" height="262" alt="ec2" src="https://github.com/user-attachments/assets/8fe259ba-f068-40dc-a28b-453b8771a0f5" />
+
 
 - [ ] Network Settings:
       Set Auto-assign public IP to Enable.
