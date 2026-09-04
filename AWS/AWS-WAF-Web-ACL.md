@@ -136,6 +136,8 @@ Click Launch Instance and wait for it to start.
 - [ ] Test the load balancer again to ensure WAF rules are blocking SQL Injection and unauthorized Query Strings.
 
 ✅ Successfully configured Application Load Balancer with AWS WAF! 🎉
+---
+
 
 <img width="775" height="321" alt="web page" src="https://github.com/user-attachments/assets/a871dd7a-9a0d-4adf-89e8-014bd491ae8d" />
 
