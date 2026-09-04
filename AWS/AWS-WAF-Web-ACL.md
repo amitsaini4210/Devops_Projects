@@ -25,10 +25,10 @@
 - [ ] Go to **EC2** under **Services**.
 - [ ] Click on **Launch Instance**.
 - [ ] Configure:
-      -  Name: **WAF-server1**
-      - AMI: **Ubuntu**
-      - Instance Type: **t2.micro**
-      - Key Pair: **WAF-serverKey (.pem or .ppk)**    
+   -  Name: **WAF-server1**
+   - AMI: **Ubuntu**
+   - Instance Type: **t2.micro**
+   -  Key Pair: **WAF-serverKey (.pem or .ppk)**    
 
 
 - [ ] Network Settings:
