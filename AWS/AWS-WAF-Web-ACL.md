@@ -28,9 +28,7 @@
       -  Name: **WAF-server1**
       - AMI: **Ubuntu**
       - Instance Type: **t2.micro**
-      - Key Pair: **WAF-serverKey (.pem or .ppk)**
-      
-<img width="1667" height="262" alt="ec2" src="https://github.com/user-attachments/assets/8fe259ba-f068-40dc-a28b-453b8771a0f5" />
+      - Key Pair: **WAF-serverKey (.pem or .ppk)**    
 
 
 - [ ] Network Settings:
@@ -51,6 +49,8 @@ echo "<html><h1> Welcome to Mylabs Server 1 </h1></html>" >> /var/www/html/index
 
 ```
 - [ ]   Click Launch instance and wait for it to start.
+
+<img width="1667" height="262" alt="ec2" src="https://github.com/user-attachments/assets/8fe259ba-f068-40dc-a28b-453b8771a0f5" />
 
 
 ## 🔗Task 3: Launch Second EC2 Instance
