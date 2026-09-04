@@ -15,7 +15,6 @@
 ## 🔗 Task 1: Sign in to AWS Management Console
 
 - [ ] Click on **Open Console** to redirect to AWS Console.
-
 - [ ] Sign in and set the default region to **US East (N. Virginia) `us-east-1`**.
 
 ---
@@ -23,17 +22,13 @@
 ## 🔗 Task 2: Launch First EC2 Instance
 
 - [ ] Go to **EC2** under **Services**.
-
 - [ ] Click on **Launch Instance**.
-- [ ] Click on Launch Instances.
 - [ ] Configure:
-
-      -  Name: WAF-server1
-      - AMI: Ubuntu
-      - Instance Type: t2.micro
-      - Key Pair: WAF-serverKey (.pem or .ppk)
+      -  Name: **WAF-server1**
+      - AMI: **Ubuntu**
+      - Instance Type: **t2.micro**
+      - Key Pair: **WAF-serverKey (.pem or .ppk)**
 - [ ] Network Settings:
-
       Set Auto-assign public IP to Enable.
       Create Security Group MyWAF-serverSG with rules:
       SSH from Anywhere
@@ -53,17 +48,16 @@ echo "<html><h1> Welcome to Mylabs Server 1 </h1></html>" >> /var/www/html/index
 - [ ]   Click Launch instance and wait for it to start.
 
 
-
 ## 🔗Task 3: Launch Second EC2 Instance
-- [ ] Click on Launch Instances.
+- [ ] Click on **Launch Instances.**
 - [ ] Configure:
-    -  Name: WAF-server2
-    - AMI: Ubuntu
-    - Instance Type: t2.micro
-    - Key Pair: WAF-serverKey (.pem or .ppk)
+    -  Name: **WAF-server2**
+    - AMI: **Ubuntu**
+    - Instance Type: **t2.micro**
+    - Key Pair: **WAF-serverKey (.pem or .ppk)**
 - [ ] Network Settings:
   - Set Auto-assign Public IP to Enable.
-  - Use existing Security Group MyWAF-serverSG.
+  - Use existing Security Group **MyWAF-serverSG.**
 User Data:
 ```bash
 #!/bin/bash
@@ -75,8 +69,6 @@ systemctl enable httpd
 echo "<html><h1>Welcome to Mylabs Server 2</h1></html>" >> /var/www/html/index.html
 ```
 Click Launch Instance and wait for it to start.
-
-
 
 
 # Task 4: Create a Target Group
@@ -98,22 +90,22 @@ Click Launch Instance and wait for it to start.
 - [ ] Go to Load Balancers under Load Balancing in EC2 console.
 - [ ] Click Create Load Balancer.
 - [ ] Select Application Load Balancer and configure:
-   Name: MyWAFLoadBalancer
+   Name: **MyWAFLoadBalancer**
    Scheme: Internet-facing
    IP address type: IPv4
 - [ ] Network Mapping:
      VPC: Default
      Mappings: All Availability Zones
-- [ ] Security Group: Use MyWAF-serverSG.
+- [ ] Security Group: Use **MyWAF-serverSG.**
 - [ ] Listeners and Routing:
   - Protocol: HTTP
   - Port: 80
-- [ ] Default action: Forward to MyWAFTargetGroup
+- [ ] Default action: Forward to **MyWAFTargetGroup**
 - [ ] Click Create load balancer.
 
 ## 🔗 Task 6: Test Load Balancer DNS
-- [ ] Verify targets are Healthy under MyWAFTargetGroup.
-- [ ] Go to Load Balancers and note down the DNS name of MyWAFLoadBalancer.
+- [ ] Verify targets are Healthy under **MyWAFTargetGroup.**
+- [ ] Go to Load Balancers and note down the DNS name of **MyWAFLoadBalancer.**
 - [ ] Enter the DNS in a browser to see the index.html page.
 - [ ] Test with SQL Injection and Query String:
        Example SQL Injection: http://<ELB DNS>/product?item=securitynumber'+OR+1=1--
@@ -123,7 +115,7 @@ Click Launch Instance and wait for it to start.
 - [ ] Go to WAF & Shield under Security, Identity & Compliance.
 - [ ] Click Create Web ACL.
 - [ ] Configure:
-       Name: MyWAFWebAcl
+       Name: **MyWAFWebAcl**
        Description: WAF for SQL Injection, Geo location and Query String parameters
        Resource type: Regional resources
        Region: US East (N. Virginia)
