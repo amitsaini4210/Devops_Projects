@@ -32,11 +32,11 @@
 
 
 - [ ] Network Settings:
-     Set Auto-assign public IP to Enable.
-     Create Security Group MyWAF-serverSG with rules:
-     SSH from Anywhere
-     HTTP from Anywhere
-     HTTPS from Anywhere
+  -  Set Auto-assign public IP to Enable.
+  -  Create Security Group MyWAF-serverSG with rules:
+  -  SSH from Anywhere
+  -  HTTP from Anywhere
+  -  HTTPS from Anywhere
 
 - [ ] User data:
 ```bash
