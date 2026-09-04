@@ -5,13 +5,9 @@
 ## Overview
 
 - [ ] This project introduces the use of an **Application Load Balancer** to distribute traffic across two EC2 instances with advanced security features using **AWS WAF**.
-
 - [ ] Learn to deploy **AWS WAF Web ACL** to customize security rules, blocking specific requests based on location, SQL injections, and query strings.
-
 - [ ] Configure two **EC2 instances** to simulate a real-world scalable and secure architecture.
-
 - [ ] Understand the interaction of **AWS WAF** with **Elastic Load Balancing** to protect applications against common web exploits.
-
 - [ ] AWS WAF controls traffic by allowing only legitimate requests based on custom rules, offering a **pay-as-you-go pricing model**.
 
 ---
