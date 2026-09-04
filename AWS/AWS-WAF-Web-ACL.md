@@ -1,4 +1,5 @@
 # Project : Setting Up ALB with AWS WAF to block SQL Injection, Geo Location and Query string ✅
+<img width="1056" height="515" alt="pro" src="https://github.com/user-attachments/assets/e1c03760-c9a7-4591-93dc-2fccaea7ddc6" />
 
 ---
 
@@ -28,6 +29,8 @@
       - AMI: **Ubuntu**
       - Instance Type: **t2.micro**
       - Key Pair: **WAF-serverKey (.pem or .ppk)**
+<img width="1185" height="174" alt="TG" src="https://github.com/user-attachments/assets/2ad3f10f-6419-4fe7-bc8c-e058293db65d" />
+
 - [ ] Network Settings:
       Set Auto-assign public IP to Enable.
       Create Security Group MyWAF-serverSG with rules:
@@ -130,3 +133,6 @@ Click Launch Instance and wait for it to start.
 - [ ] Test the load balancer again to ensure WAF rules are blocking SQL Injection and unauthorized Query Strings.
 
 ✅ Successfully configured Application Load Balancer with AWS WAF! 🎉
+
+<img width="775" height="321" alt="web page" src="https://github.com/user-attachments/assets/a871dd7a-9a0d-4adf-89e8-014bd491ae8d" />
+
