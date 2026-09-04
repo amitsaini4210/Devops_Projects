@@ -29,6 +29,7 @@
       - AMI: **Ubuntu**
       - Instance Type: **t2.micro**
       - Key Pair: **WAF-serverKey (.pem or .ppk)**
+      
 <img width="1667" height="262" alt="ec2" src="https://github.com/user-attachments/assets/8fe259ba-f068-40dc-a28b-453b8771a0f5" />
 
 
