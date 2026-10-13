@@ -1,4 +1,4 @@
-# Deploy two tier flask app using Jenkins with sending email 
+# Deploy two tier flask app using Jenkins with sending emails 
 
 <img width="2040" height="512" alt="project_flow" src="https://github.com/user-attachments/assets/7aacc7bc-da1b-4cfa-aaa7-5f092adb6493" />
 
